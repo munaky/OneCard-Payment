@@ -6,10 +6,10 @@ use Illuminate\Http\Request;
 
 class Auth extends Controller
 {
-    public function __invoke(Request $request, $target)
+    public function __invoke(Request $req, $target)
     {
         if (method_exists($this, $target)) {
-            return $this->$target($request);
+            return $this->$target($req);
         } else {
             return Etc::errView(404);
         }

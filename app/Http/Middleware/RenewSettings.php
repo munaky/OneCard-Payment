@@ -8,6 +8,8 @@ use Symfony\Component\HttpFoundation\Response;
 
 /* Models */
 use App\Models\MuridSettings;
+use App\Models\KasirSettings;
+use App\Models\AdminSettings;
 
 class RenewSettings
 {
@@ -20,8 +22,8 @@ class RenewSettings
     {
         $user = session()->get('user');
 
-        if ($user->role->access === 'murid') {
-            self::murid($user);
+        if (method_exists($this, $user->role->access)) {
+            $this->{$user->role->access}($user);
         }
 
         return $next($request);
@@ -31,6 +33,26 @@ class RenewSettings
     {
         $settings = MuridSettings::where('payment_users_id', $user->id)
             ->first();
+
+        session()->put('settings', $settings);
+    }
+
+    private function kasir($user)
+    {
+        $settings = KasirSettings::with('api')
+            ->where('payment_users_id', $user->id)
+            ->first();
+
+        session()->put('settings', $settings);
+    }
+
+    private function admin($user)
+    {
+        $settings = AdminSettings::with('api')
+            ->where('payment_users_id', $user->id)
+            ->first();
+
+        info($settings);
 
         session()->put('settings', $settings);
     }

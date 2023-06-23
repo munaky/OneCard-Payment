@@ -20,4 +20,8 @@ class MuridSettings extends Model
     public function role() {
         return $this->belongsTo(Role::class);
     }
+
+    public function murid() {
+        return $this->hasOne(Murid::class);
+    }
 }

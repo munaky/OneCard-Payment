@@ -24,7 +24,7 @@ class Views extends Controller
         return view("users.$role.index", ['content' => $content]);
     }
 
-    private function muridhistory()
+    private function muridhome()
     {
         info('Controller: Views; Method: muridhistory');
 

@@ -4,7 +4,7 @@
         <a href="{{ url('/murid/home') }}" class="ml-5">
             <img src="{{ asset('assets/home.png') }}" alt="" class="w-5">
         </a>
-        <a href="{{ url('/murid/history') }}" class="">
+        <a href="https://e-pinjam.generasi4bogor.com" class="">
             <img src="{{ asset('assets/stopwatch.png') }}" alt="" class="w-5">
         </a>
 
@@ -12,10 +12,10 @@
             <img src="{{ asset('assets/scan.png') }}" alt="" class="w-6">
         </a>
 
-        <a href="{{ url('/murid/user') }}" class="">
+        <a href="{{ url('https://absensi.generasi4bogor.com') }}" class="">
             <img src="{{ asset('assets/user.png') }}" alt="" class="w-5">
         </a>
-        <a href="{{ url('/murid/settings') }}" class="mr-5">
+        <a href="{{ url('/murid/profile') }}" class="mr-5">
             <img src="{{ asset('assets/settings.png') }}" alt="" class="w-5 hover:rotate-180 ease-out duration-200">
         </a>
 

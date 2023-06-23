@@ -23,9 +23,13 @@
         </div>
 
         <div class="py-5 px-4 mt-10 mx-3 bg-[#353648] items-center justify-between drop-shadow-sm rounded-md flex hover:mx-0 hover:drop-shadow-md ease-in duration-200">
+            <div class="w-max px-4 py-2 rounded-lg bg-[#4e546b]">
+                <h6 class="text-[13px] gray-600 text-white">Total Uang :<p></p>
+                    </h6>
+            <h5 class="text-white text-lg font-bold">Rp. {{ session()->get('settings')->balance }}</h5></div>
             <div class="flex space-x-3 items-center">
-                <h2 class="text-semibold text-white font-semibold tracking-wider">Top up</h2>
-                <a href="{{ url('/admin/topup') }}" class="h-10 w-10 flex items-center justify-center rounded-lg text-xl bg-[#4e546b]">
+                <h2 class="text-semibold text-white font-semibold tracking-wider">Set Value</h2>
+                <a href="{{ url('/kasir/payment') }}" class="h-10 w-10 flex items-center justify-center rounded-lg text-xl bg-[#4e546b]">
                     <h6 class="text-semibold text-black font-semibold tracking-wider">+</h6>
                 </a>
             </div>
@@ -39,9 +43,9 @@
                 <img src="https://source.unsplash.com/user/c_v_r/500x500" class="rounded-xl h-28 aspect-square bg-contain">
 
                 <div class="space-y-2 ml-5">
-                    <h5 class="tracking-wide text-lg">Pengisian Saldo</h5>
+                    <h5 class="tracking-wide text-lg">Menerima Saldo</h5>
                     <h6 class="text-[13px] gray-600 font-light">
-                        Anda telah melakukan pengisian saldo untuk Ruben Badut
+                        Anda telah menerima saldo dari Ruben Badut
                     <p></p>
                     </h6><h6 class="text-[12px] gray-300 font-light">
                         Rp. 5000
@@ -49,41 +53,6 @@
                 </div>
             </div>
             <!-- Sampe sini Postnya -->
-
-             <!-- Ini Postnya -->
-             <div class="p-3 mx-3 bg-white drop-shadow-sm rounded-md flex hover:mx-0 hover:drop-shadow-md ease-in duration-200">
-                <img src="https://source.unsplash.com/user/c_v_r/500x500" class="rounded-xl h-28 aspect-square bg-contain">
-
-                <div class="space-y-2 ml-5">
-                    <h5 class="tracking-wide text-lg">Pengisian Saldo</h5>
-                    <h6 class="text-[13px] gray-600 font-light">
-                        Anda telah melakukan pengisian saldo untuk Ruben Badut
-                    <p></p>
-                    </h6><h6 class="text-[12px] gray-300 font-light">
-                        Rp. 5000
-                    </h6>
-                </div>
-            </div>
-            <!-- Sampe sini Postnya -->
-
-             <!-- Ini Postnya -->
-             <div class="p-3 mx-3 bg-white drop-shadow-sm rounded-md flex hover:mx-0 hover:drop-shadow-md ease-in duration-200">
-                <img src="https://source.unsplash.com/user/c_v_r/500x500" class="rounded-xl h-28 aspect-square bg-contain">
-
-                <div class="space-y-2 ml-5">
-                    <h5 class="tracking-wide text-lg">Pengisian Saldo</h5>
-                    <h6 class="text-[13px] gray-600 font-light">
-                        Anda telah melakukan pengisian saldo untuk Ruben Badut
-                    <p></p>
-                    </h6><h6 class="text-[12px] gray-300 font-light">
-                        Rp. 5000
-                    </h6>
-                </div>
-            </div>
-            <!-- Sampe sini Postnya -->
-
-
-
 
         </div>
         <!-- Ini akhir container postnya -->

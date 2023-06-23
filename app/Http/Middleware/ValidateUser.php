@@ -23,6 +23,10 @@ class ValidateUser
     {
         $data = session()->get('user');
 
+        if($data === null){
+            return redirect('/auth/login');
+        }
+
         $user = Users::where(
                 [
                     ['username', $data->username],

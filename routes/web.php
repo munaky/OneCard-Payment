@@ -6,6 +6,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Test;
 use App\Http\Controllers\Auth;
 use App\Http\Controllers\Views;
+use App\Http\Controllers\RFID;
+use App\Http\Controllers\API;
 
 /* Middlewares */
 use App\Http\Middleware\ValidateUser;
@@ -29,6 +31,8 @@ Route::get('/auth/login', function () {
     return view('auth.login');
 });
 
+Route::post('/api/set/value', [API::class, 'setValue']);
+
 Route::get('/{role}/{page}', Views::class)
     ->middleware(
         [
@@ -39,8 +43,15 @@ Route::get('/{role}/{page}', Views::class)
     );
 
 Route::get('/', function () {
+    if(session()->missing('user')){
+        return redirect('/auth/login');
+    }
+
     $access = session()->get('user')->role->access;
     return redirect("/$access/home");
 });
 
 Route::post('/auth/{method}', Auth::class);
+Route::get('/auth/logout', [Auth::class, 'logout']);
+
+Route::match(['get', 'post'], '/api/rfid/{method}', RFID::class);

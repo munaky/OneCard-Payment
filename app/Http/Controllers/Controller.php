@@ -6,8 +6,11 @@ use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Routing\Controller as BaseController;
 
+/* Models */
+use App\Models\API;
 use App\Models\History;
 use App\Models\Jurusan;
+use App\Models\KasirSettings;
 use App\Models\Kelas;
 use App\Models\Murid;
 use App\Models\MuridSettings;
@@ -22,8 +25,10 @@ class Controller extends BaseController
 
     public function __construct(){
         $this->models = [
+            'api' => API::class,
             'history' => History::class,
             'jurusan' => Jurusan::class,
+            'kasir_settings' => KasirSettings::class,
             'kelas' => Kelas::class,
             'murid' => Murid::class,
             'murid_settings' => MuridSettings::class,
