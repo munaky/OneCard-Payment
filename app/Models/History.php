@@ -15,7 +15,7 @@ class History extends Model
 
     protected $primaryKey = 'id';
 
-    protected $fillable = ['murid_id', 'image', 'title', 'body', 'price'];
+    protected $fillable = ['payment_users_id', 'murid_id', 'image', 'title', 'body', 'price'];
 
     public function murid() {
         return $this->belongsTo(Murid::class);

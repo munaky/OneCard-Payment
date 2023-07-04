@@ -7,6 +7,7 @@ use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Routing\Controller as BaseController;
 
 /* Models */
+use App\Models\AdminSettings;
 use App\Models\API;
 use App\Models\History;
 use App\Models\Jurusan;
@@ -25,6 +26,7 @@ class Controller extends BaseController
 
     public function __construct(){
         $this->models = [
+            'admin_settings' => AdminSettings::class,
             'api' => API::class,
             'history' => History::class,
             'jurusan' => Jurusan::class,

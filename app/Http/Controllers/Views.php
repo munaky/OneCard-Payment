@@ -31,4 +31,20 @@ class Views extends Controller
         return $this->models['history']::where('murid_id', session()->get('user')->id)
             ->get();
     }
+
+    private function kasirhome()
+    {
+        info('Controller: Views; Method: muridhistory');
+
+        return $this->models['history']::where('payment_users_id', session()->get('user')->id)
+            ->get();
+    }
+
+    private function adminhome()
+    {
+        info('Controller: Views; Method: muridhistory');
+
+        return $this->models['history']::where('payment_users_id', session()->get('user')->id)
+            ->get();
+    }
 }
