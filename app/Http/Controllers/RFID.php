@@ -15,6 +15,15 @@ class RFID extends Controller
         }
     }
 
+    private function get(Request $req)
+    {
+        $input = $req->all();
+
+        $api = $this->models['api']::where('token', $input['token'])->first()->mode;
+
+        return $api == 'Payment' ? self::payment($req) : self::topup($req);
+    }
+
     private function payment(Request $req)
     {
         info('Controller: RFID; Method: payment');
@@ -71,7 +80,7 @@ class RFID extends Controller
             'value' => 0
         ]);
 
-        return response()->json(['Pembayaran Ber']);
+        return response()->json(['Pembayaran Berhasil']);
     }
 
 
@@ -93,18 +102,27 @@ class RFID extends Controller
         $murid = $this->models['murid']::where('card_id', $cardId)->first();
         $setting = $this->models['murid_settings']::where('murid_id', $murid->id)->first();
 
-        $newBalance = $setting->balance - $api->value;
+        $newBalance = $setting->balance + $api->value;
 
         if ($api->value == 0) {
-            return response('false');
+            return response()->json(["Topup Gagal"]);
         }
 
         app()->call([History::class, 'make'], ['data' => [
             'payment_users_id' => $admin->payment_users_id,
             'murid_id' => 0,
             'image' => 'assets/murid_history.jpeg',
-            'title' => 'Penjualan',
+            'title' => 'Topup',
             'body' => 'Anda telah mengirim saldo ke ' . $murid->name,
+            'price' => $api->value
+        ]]);
+
+        app()->call([History::class, 'make'], ['data' => [
+            'payment_users_id' => 0,
+            'murid_id' => $murid->id,
+            'image' => 'assets/murid_history.jpeg',
+            'title' => 'Topup',
+            'body' => 'Anda telah menerima saldo',
             'price' => $api->value
         ]]);
 
@@ -116,6 +134,6 @@ class RFID extends Controller
             'value' => 0
         ]);
 
-        return response('true');
+        return response()->json(['Topup Berhasil']);
     }
 }

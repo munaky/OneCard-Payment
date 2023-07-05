@@ -8,6 +8,7 @@ use App\Http\Controllers\Auth;
 use App\Http\Controllers\Views;
 use App\Http\Controllers\RFID;
 use App\Http\Controllers\API;
+use App\Http\Controllers\PostEdit;
 
 /* Middlewares */
 use App\Http\Middleware\ValidateUser;
@@ -32,6 +33,7 @@ Route::get('/auth/login', function () {
 });
 
 Route::post('/api/set/value', [API::class, 'setValue']);
+Route::post('/post/change/{data}', PostEdit::class);
 
 Route::get('/{role}/{page}', Views::class)
     ->middleware(

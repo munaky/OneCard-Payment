@@ -64,21 +64,21 @@
         <nav class="fixed bottom-2 left-0 right-0 rounded-3xl bg-[#353648] drop-shadow-lg mx-2">
             <div class="flex items-center justify-between px-4 py-2">
                 <a href="#" class="ml-5">
-                    <img src="../assets/home.png" alt="" class="w-5">
+                    <img src="{{ asset('assets/home.png') }}" alt="" class="w-5">
                 </a>
                 <a href="#" class="">
-                    <img src="../assets/stopwatch.png" alt="" class="w-5">
+                    <img src="{{ asset('assets/stopwatch.png') }}" alt="" class="w-5">
                 </a>
 
                 <a href="./scan/scan.html" class="bg-white rounded-full w-12 h-12 flex justify-center items-center">
-                    <img src="./assets/scan.png" alt="" class="w-6">
+                    <img src="{{ asset('assets/scan.png') }}" alt="" class="w-6">
                 </a>
 
                 <a href="./profile/profile.html" class="">
-                    <img src="../assets/user.png" alt="" class="w-5">
+                    <img src="{{ asset('assets/user.png') }}" alt="" class="w-5">
                 </a>
                 <a href="#" class="mr-5">
-                    <img src="../assets/settings.png" alt="" class="w-5 hover:rotate-180 ease-out duration-200">
+                    <img src="{{ asset('assets/settings.png') }}" alt="" class="w-5 hover:rotate-180 ease-out duration-200">
                 </a>
 
             </div>

@@ -29,6 +29,7 @@ class Views extends Controller
         info('Controller: Views; Method: muridhistory');
 
         return $this->models['history']::where('murid_id', session()->get('user')->id)
+            ->orderBy('id', 'desc')
             ->get();
     }
 
@@ -37,6 +38,7 @@ class Views extends Controller
         info('Controller: Views; Method: muridhistory');
 
         return $this->models['history']::where('payment_users_id', session()->get('user')->id)
+            ->orderBy('id', 'desc')
             ->get();
     }
 
@@ -45,6 +47,7 @@ class Views extends Controller
         info('Controller: Views; Method: muridhistory');
 
         return $this->models['history']::where('payment_users_id', session()->get('user')->id)
+            ->orderBy('id', 'desc')
             ->get();
     }
 }

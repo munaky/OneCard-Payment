@@ -12,7 +12,7 @@
 </head>
 <body style="font-family: 'Poppins', sans-serif;" class="bg-gray-100 flex flex-col justify-center px-5 py-8">
     <div class="w-screen flex space-x-3">
-        <img src="../assets/profile.png" class="w-10 h-10 rounded-full" alt="">
+        <img src="{{ asset('assets/profile.png') }}" class="w-10 h-10 rounded-full" alt="">
         <div class="h-max w-max">
             <h5 class="font-semibold text-sm tracking-wide">{{ session()->get('settings')->api->name }}</h5>
             <h5 class="text-gray-600 text-[12px] text-light tracking-wide">SMKN 4 Kota Bogor</h5>
