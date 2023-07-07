@@ -15,5 +15,5 @@ class API extends Model
 
     protected $primaryKey = 'id';
 
-    protected $fillable = ['value'];
+    protected $fillable = ['id', 'value'];
 }

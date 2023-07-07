@@ -6,12 +6,12 @@ use Illuminate\Http\Request;
 
 class API extends Controller
 {
-    public function SetValue(Request $req){
-        $this->models['api']::find(session()->get('settings')->api->id)
-            ->update([
-                'value' => $req->get('value')
-            ]);
+    public function tokenvalue(){
+        $api = Etc::getSession()['settings']->api;
 
-        return back();
+        $data = $this->models['api']::where('token', $api->token)
+        ->first();
+
+        return response($data->value);
     }
 }

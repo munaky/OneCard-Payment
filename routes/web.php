@@ -8,7 +8,8 @@ use App\Http\Controllers\Auth;
 use App\Http\Controllers\Views;
 use App\Http\Controllers\RFID;
 use App\Http\Controllers\API;
-use App\Http\Controllers\PostEdit;
+use App\Http\Controllers\PostUpdate;
+use App\Http\Controllers\PostCreate;
 
 /* Middlewares */
 use App\Http\Middleware\ValidateUser;
@@ -26,14 +27,15 @@ use App\Http\Middleware\RenewSettings;
 |
 */
 
-Route::get('/test', Test::class);
+Route::match(['get', 'post'], '/test', Test::class);
 
 Route::get('/auth/login', function () {
     return view('auth.login');
 });
+Route::get('/auth/logout', [Auth::class, 'logout']);
 
-Route::post('/api/set/value', [API::class, 'setValue']);
-Route::post('/post/change/{data}', PostEdit::class);
+Route::post('/post/update/{method}', PostUpdate::class);
+Route::post('/post/create/{method}', PostCreate::class);
 
 Route::get('/{role}/{page}', Views::class)
     ->middleware(
@@ -54,6 +56,11 @@ Route::get('/', function () {
 });
 
 Route::post('/auth/{method}', Auth::class);
-Route::get('/auth/logout', [Auth::class, 'logout']);
 
 Route::match(['get', 'post'], '/api/rfid/{method}', RFID::class);
+
+/*
+    API
+*/
+
+Route::post('/api/get/tokenvalue', [API::class, 'tokenvalue']);

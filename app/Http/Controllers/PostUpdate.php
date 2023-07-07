@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-class PostEdit extends Controller
+class PostUpdate extends Controller
 {
     public function __invoke(Request $req, $target)
     {
@@ -13,6 +13,17 @@ class PostEdit extends Controller
         } else {
             return Etc::errView(404);
         }
+    }
+
+    public function tokenvalue(Request $req)
+    {
+        info($req->all());
+        $this->models['api']::find(session()->get('settings')->api->id)
+            ->update([
+                'value' => $req->get('value')
+            ]);
+
+        return response('true');
     }
 
     private function password(Request $req)
@@ -29,38 +40,37 @@ class PostEdit extends Controller
                 'password' => $input['ver_pass']
             ]);
 
-            return back();
+        return back();
     }
 
-    private function dailylimit(){
-        $data = session()->get('settings');
-
-        $this->models['murid_settings']::find($data->id)
+    private function pin(Request $req)
+    {
+        $this->models['murid_settings']::find(session()->get('settings')->id)
             ->update([
-                    'daily_limit' => $data->daily_limit + 5000
-                ]);
+                'pin' => $req->get('pin')
+            ]);
 
         return back();
     }
 
-    private function increaselimit(){
+    private function dailylimit(Request $req)
+    {
         $data = session()->get('settings');
 
         $this->models['murid_settings']::find($data->id)
             ->update([
-                    'daily_limit' => $data->daily_limit + 5000
-                ]);
+                'daily_limit' => $req->get('method') == 'decrease' ? $data->daily_limit - 5000 : $data->daily_limit + 5000
+            ]);
 
         return back();
     }
 
-    private function decreaselimit(){
-        $data = session()->get('settings');
-
-        $this->models['murid_settings']::find($data->id)
+    private function blockcard(Request $req)
+    {
+        $this->models['murid_settings']::find(session()->get('settings')->id)
             ->update([
-                    'daily_limit' => $data->daily_limit - 5000
-                ]);
+                'disable' => $req->get('status') ? 1 : 0
+            ]);
 
         return back();
     }

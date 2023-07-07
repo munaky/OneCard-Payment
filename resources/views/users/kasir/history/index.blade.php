@@ -1,8 +1,6 @@
 <div class="flex justify-between mt-3 px-3">
     <h5 class="tracking-wider text-[#353648] font-semibold">
         Histori akun</h5>
-    <a href="{{ url('/murid/history') }}" class="text-sm text-[#575872] mt-1 hover:underline">
-        Lihat Semua</a>
 </div>
 
 <!-- Ini container postnya -->
@@ -25,5 +23,7 @@
             </div>
         </div>
     @endforeach
+    <!-- Sampe sini Postnya -->
 
 </div>
+<!-- Ini akhir container postnya -->

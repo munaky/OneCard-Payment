@@ -15,11 +15,18 @@ class Murid extends Model
 
     protected $primaryKey = 'id';
 
-    public function kelas() {
+    public function kelas()
+    {
         return $this->belongsTo(Kelas::class);
     }
 
-    public function jurusan() {
+    public function jurusan()
+    {
         return $this->belongsTo(Jurusan::class);
+    }
+
+    public function murid_settings()
+    {
+        return $this->hasOne(MuridSettings::class);
     }
 }

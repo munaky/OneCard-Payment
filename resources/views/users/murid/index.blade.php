@@ -14,7 +14,7 @@
 <body style="font-family: 'Poppins', sans-serif;" class="bg-gray-100 flex justify-center py-3 px-4">
 
     {{-- Wrapper --}}
-    <div class="w-full h-max">
+    <div class="w-[315px]">
         {{-- Main Header --}}
         @include('components.murid.main_header')
 

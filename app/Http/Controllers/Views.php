@@ -14,8 +14,8 @@ class Views extends Controller
             return Etc::errView(404);
         };
 
-        if (method_exists($this, $role.$page)) {
-            $data = $this->{$role.$page}($req);
+        if (method_exists($this, $role . $page)) {
+            $data = $this->{$role . $page}($req);
             $content = view("users.$role.$page.index", ['data' => $data]);
         } else {
             $content = view("users.$role.$page.index");
@@ -26,17 +26,34 @@ class Views extends Controller
 
     private function muridhome()
     {
-        info('Controller: Views; Method: muridhistory');
+        return $this->models['history']::where('murid_id', session()->get('user')->id)
+            ->orderBy('id', 'desc')
+            ->limit(5)
+            ->get();
+    }
 
+    private function muridhistory()
+    {
         return $this->models['history']::where('murid_id', session()->get('user')->id)
             ->orderBy('id', 'desc')
             ->get();
     }
 
+    private function muridprofile()
+    {
+        //
+    }
+
     private function kasirhome()
     {
-        info('Controller: Views; Method: muridhistory');
+        return $this->models['history']::where('payment_users_id', session()->get('user')->id)
+            ->orderBy('id', 'desc')
+            ->limit(5)
+            ->get();
+    }
 
+    private function kasirhistory()
+    {
         return $this->models['history']::where('payment_users_id', session()->get('user')->id)
             ->orderBy('id', 'desc')
             ->get();
@@ -44,10 +61,36 @@ class Views extends Controller
 
     private function adminhome()
     {
-        info('Controller: Views; Method: muridhistory');
+        return $this->models['history']::where('payment_users_id', session()->get('user')->id)
+            ->orderBy('id', 'desc')
+            ->limit(5)
+            ->get();
+    }
 
+    private function adminhistory()
+    {
         return $this->models['history']::where('payment_users_id', session()->get('user')->id)
             ->orderBy('id', 'desc')
             ->get();
+    }
+
+    private function admintopup()
+    {
+        $api = session()->get('settings')->api;
+
+        $this->models['api']::where('id', $api->id)
+            ->update([
+                'mode' => 'topup'
+            ]);
+    }
+
+    private function adminmurid()
+    {
+        $api = session()->get('settings')->api;
+
+        $this->models['api']::where('id', $api->id)
+            ->update([
+                'mode' => 'register'
+            ]);
     }
 }

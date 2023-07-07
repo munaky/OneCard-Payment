@@ -19,23 +19,26 @@ class RFID extends Controller
     {
         $input = $req->all();
 
-        $api = $this->models['api']::where('token', $input['token'])->first()->mode;
+        $mode = $this->models['api']::where('token', $input['token'])->first()->mode;
 
-        return $api == 'Payment' ? self::payment($req) : self::topup($req);
+        return self::{$mode}($req);
     }
 
     private function payment(Request $req)
     {
-        info('Controller: RFID; Method: payment');
-
         $input = $req->all();
         $token = $input['token'];
         $cardId = $input['card_id'];
 
         $api = $this->models['api']::where([
-            ['mode', 'Payment'],
-            ['token', $token]
+            ['mode', 'topup'],
+            ['token', $token],
+            ['value', '!=', ''],
         ])->first();
+
+        if (!$api) {
+            return response()->json(["Topup Gagal"]);
+        }
 
         $kasir = $this->models['kasir_settings']::where('payment_api_id', $api->id)->first();
 
@@ -45,7 +48,7 @@ class RFID extends Controller
         $newBalance = $setting->balance - $api->value;
         $newSpent = $setting->spent + $api->value;
 
-        if ($newSpent >= $setting->daily_limit || $api->value == 0) {
+        if ($newSpent >= $setting->daily_limit) {
             return response()->json(["Pembayaran Gagal"]);
         }
 
@@ -86,16 +89,19 @@ class RFID extends Controller
 
     private function topup(Request $req)
     {
-        info('Controller: RFID; Method: payment');
-
         $input = $req->all();
         $token = $input['token'];
         $cardId = $input['card_id'];
 
         $api = $this->models['api']::where([
-            ['mode', 'Topup'],
-            ['token', $token]
+            ['mode', 'topup'],
+            ['token', $token],
+            ['value', '!=', ''],
         ])->first();
+
+        if (!$api) {
+            return response()->json(["Topup Gagal"]);
+        }
 
         $admin = $this->models['admin_settings']::where('payment_api_id', $api->id)->first();
 
@@ -103,10 +109,6 @@ class RFID extends Controller
         $setting = $this->models['murid_settings']::where('murid_id', $murid->id)->first();
 
         $newBalance = $setting->balance + $api->value;
-
-        if ($api->value == 0) {
-            return response()->json(["Topup Gagal"]);
-        }
 
         app()->call([History::class, 'make'], ['data' => [
             'payment_users_id' => $admin->payment_users_id,
@@ -135,5 +137,31 @@ class RFID extends Controller
         ]);
 
         return response()->json(['Topup Berhasil']);
+    }
+
+    private function register(Request $req)
+    {
+        $input = $req->all();
+        $token = $input['token'];
+        $cardId = $input['card_id'];
+
+        $api = $this->models['api']::where([
+            ['mode', 'register'],
+            ['token', $token],
+        ])->first();
+
+        $murid = $this->models['murid']::with('murid_settings')
+            ->where('card_id', $cardId)
+            ->first();
+
+        if (!$api || $murid === null|| $murid->murid_settings) {
+            return response()->json(["Verifikasi Gagal"]);
+        }
+
+        $api->update([
+            'value' => $cardId
+        ]);
+
+        return response()->json(['Verifikasi Berhasil']);
     }
 }

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cookie;
 
 class Etc extends Controller
 {
@@ -14,5 +15,17 @@ class Etc extends Controller
         $message = require base_path('app/Etc/messages.php');
 
         return response()->json($message[$code]);
+    }
+
+    public static function getSession()
+    {
+        $sessionId = Cookie::get('laravel_session');
+
+        session()->setId($sessionId);
+
+        return session()->all();
+    }
+
+    public static function any($params){
     }
 }

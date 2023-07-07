@@ -15,7 +15,7 @@ class MuridSettings extends Model
 
     protected $primaryKey = 'id';
 
-    protected $fillable = ['payment_users_id', 'murid_id', 'balance', 'spent', 'daily_limit', 'pin'];
+    protected $fillable = ['payment_users_id', 'murid_id', 'balance', 'spent', 'daily_limit', 'pin', 'disable'];
 
     public function role() {
         return $this->belongsTo(Role::class);
