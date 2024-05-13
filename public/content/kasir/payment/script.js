@@ -1,5 +1,5 @@
 const postUrl = withPathName('/post/update/tokenvalue');
-const apiUrl = withPathName('/api/validate/tokenvalue');
+const apiUrl = withPathName('/api/get/checking');
 
 document.getElementById('confirm').addEventListener('click', confirm);
 
@@ -11,7 +11,7 @@ function confirm(){
     startLoading();
 
     postData() ? startInterval(checking, 500) : info('post fail');
-    
+
 }
 
 async function postData(){
@@ -37,9 +37,14 @@ async function checking() {
     })
         .then((response) => response.json());
 
-    if(data == 0){
+    if(!data.value){
         stopLoading();
         stopInterval();
         clearInputValue();
+    }
+    else if(data.command == 'pin_required'){
+        stopLoading();
+        stopInterval();
+        document.getElementById('trigger').click();
     }
 }

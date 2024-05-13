@@ -17,6 +17,12 @@ class Etc extends Controller
         return response()->json($message[$code]);
     }
 
+    public static function viewsExcept($page){
+        $except = require base_path('app/Etc/viewsExcept.php');
+
+        return array_key_exists($page, $except) ? $except[$page] : [];
+    }
+
     public static function getSession()
     {
         $sessionId = Cookie::get('laravel_session');

@@ -21,7 +21,7 @@ class Auth extends Controller
 
         $input = $req->all();
 
-        $user = $this->models['users']::with('role')
+        $user = $this->models['users']::with(['role', 'murid_settings'])
             ->where([
                 ['username', $input['username']],
                 ['password', $input['password']]

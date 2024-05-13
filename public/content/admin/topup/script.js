@@ -28,18 +28,3 @@ async function postData(){
         .then((response) => response.json());
 }
 
-async function checking() {
-    const data = await fetch(apiUrl, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-    })
-        .then((response) => response.json());
-
-    if(data == 0){
-        stopLoading();
-        stopInterval();
-        clearInputValue();
-    }
-}

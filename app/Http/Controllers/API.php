@@ -14,4 +14,16 @@ class API extends Controller
 
         return response($data->value);
     }
+
+    public function checking(){
+        $api = Etc::getSession()['settings']->api;
+
+        $data = $this->models['api']::where('token', $api->token)
+        ->first();
+
+        return response()->json([
+            'value' => $data->value,
+            'command' => $data->command,
+        ]);
+    }
 }

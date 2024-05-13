@@ -1,10 +1,10 @@
-<script src="{{ url('/content/admin/murid/script.js') }}" defer></script>
+<script src="{{ asset('/content/admin/murid/script.js') }}" defer></script>
 
 <form method="post" action="{{ url('/post/create/murid') }}">
     @csrf
     <div class="mt-8 space-y-3 mb-20">
         <div>
-            <input class="text-center" name="card_id" type="text" style="border-radius: 5px; line-height: 35px;" placeholder="  ID Kartu" >
+            <input class="text-center" name="card_id" type="text" style="border-radius: 5px; line-height: 35px;" placeholder="  ID Kartu" readonly required>
         </div>
         <div>
             <input class="text-center" name="username" type="text" style="border-radius: 5px; line-height: 35px;" placeholder="  Username" disabled required>

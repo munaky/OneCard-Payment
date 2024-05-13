@@ -74,4 +74,72 @@ class PostUpdate extends Controller
 
         return back();
     }
+
+    private function paymentwithpin(Request $req)
+    {
+        $input = $req->get('pin');
+        $kasirSettings = session()->get('settings');
+
+        $api = $this->models['api']::where([
+            ['mode', 'payment'],
+            ['token', $kasirSettings->api->token],
+            ['value', '!=', ''],
+        ])
+            ->first();
+
+        if (!$api) {
+            return back();
+        }
+
+        $kasir = $this->models['kasir_settings']::where('payment_api_id', $api->id)->first();
+
+        $murid = $this->models['murid']::where('card_id', $api->value2)->first();
+        $setting = $this->models['murid_settings']::where([
+            ['murid_id', $murid->id],
+            ['pin', $input],
+        ])
+            ->first();
+
+        if (!$setting) {
+            return back();
+        }
+
+        $newBalance = $setting->balance - $api->value;
+        $newSpent = $setting->spent + $api->value;
+
+        app()->call([History::class, 'make'], ['data' => [
+            'payment_users_id' => 0,
+            'murid_id' => $murid->id,
+            'image' => 'assets/murid_history.jpeg',
+            'title' => 'Pembelian',
+            'body' => 'Anda telah melakukan pembelian di ' . $api->name,
+            'price' => $api->value
+        ]]);
+
+        app()->call([History::class, 'make'], ['data' => [
+            'payment_users_id' => $kasir->payment_users_id,
+            'murid_id' => 0,
+            'image' => 'assets/murid_history.jpeg',
+            'title' => 'Penjualan',
+            'body' => 'Anda telah menerima saldo dari ' . $murid->name,
+            'price' => $api->value
+        ]]);
+
+        $kasir->update([
+            'balance' => $kasir->balance + $api->value
+        ]);
+
+        $setting->update([
+            'balance' => $newBalance,
+            'spent' => $newSpent
+        ]);
+
+        $api->update([
+            'value' => '',
+            'value2' => '',
+            'command' => ''
+        ]);
+
+        return back();
+    }
 }

@@ -21,20 +21,24 @@ class Views extends Controller
             $content = view("users.$role.$page.index");
         }
 
-        return view("users.$role.index", ['content' => $content]);
+        return view("users.$role.index", [
+            'content' => $content,
+            'except' => Etc::viewsExcept($role . $page)
+        ]);
     }
 
     private function muridhome()
     {
-        return $this->models['history']::where('murid_id', session()->get('user')->id)
+        $data = $this->models['history']::where('murid_id', session()->get('user')->murid_settings->murid_id)
             ->orderBy('id', 'desc')
             ->limit(5)
             ->get();
+        return $data;
     }
 
     private function muridhistory()
     {
-        return $this->models['history']::where('murid_id', session()->get('user')->id)
+        return $this->models['history']::where('murid_id', session()->get('user')->murid_settings->murid_id)
             ->orderBy('id', 'desc')
             ->get();
     }
@@ -59,6 +63,29 @@ class Views extends Controller
             ->get();
     }
 
+    private function kasirpayment()
+    {
+        $api = session()->get('settings')->api;
+
+        $this->models['api']::where('id', $api->id)
+            ->update([
+                'value' => '',
+                'value2' => '',
+                'command' => '',
+            ]);
+    }
+
+    private function adminpayment()
+    {
+        $api = session()->get('settings')->api;
+
+        $this->models['api']::where('id', $api->id)
+            ->update([
+                'value' => '',
+                'command' => '',
+            ]);
+    }
+
     private function adminhome()
     {
         return $this->models['history']::where('payment_users_id', session()->get('user')->id)
@@ -80,7 +107,9 @@ class Views extends Controller
 
         $this->models['api']::where('id', $api->id)
             ->update([
-                'mode' => 'topup'
+                'mode' => 'topup',
+                'value' => '',
+                'command' => '',
             ]);
     }
 
@@ -90,7 +119,9 @@ class Views extends Controller
 
         $this->models['api']::where('id', $api->id)
             ->update([
-                'mode' => 'register'
+                'mode' => 'register',
+                'value' => '',
+                'command' => '',
             ]);
     }
 }

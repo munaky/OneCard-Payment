@@ -20,8 +20,15 @@ class RFID extends Controller
         $input = $req->all();
 
         $mode = $this->models['api']::where('token', $input['token'])->first()->mode;
+        $murid = $this->models['murid']::with('murid_settings')
+            ->where('card_id', $input['card_id'])
+            ->first();
 
-        return self::{$mode}($req);
+        if($murid->murid_settings && $murid->murid_settings->disable){
+            return response()->json(['Kartu Anda Diblokir']);
+        }
+
+        return  self::{$mode}($req);
     }
 
     private function payment(Request $req)
@@ -31,13 +38,13 @@ class RFID extends Controller
         $cardId = $input['card_id'];
 
         $api = $this->models['api']::where([
-            ['mode', 'topup'],
+            ['mode', 'payment'],
             ['token', $token],
             ['value', '!=', ''],
         ])->first();
 
         if (!$api) {
-            return response()->json(["Topup Gagal"]);
+            return response()->json(["Pembayaran Gagal"]);
         }
 
         $kasir = $this->models['kasir_settings']::where('payment_api_id', $api->id)->first();
@@ -49,7 +56,11 @@ class RFID extends Controller
         $newSpent = $setting->spent + $api->value;
 
         if ($newSpent >= $setting->daily_limit) {
-            return response()->json(["Pembayaran Gagal"]);
+            $api->update([
+                'value2' => $cardId,
+                'command' => 'pin_required'
+            ]);
+            return response()->json(["Limit Tercapai"]);
         }
 
         app()->call([History::class, 'make'], ['data' => [
@@ -154,7 +165,7 @@ class RFID extends Controller
             ->where('card_id', $cardId)
             ->first();
 
-        if (!$api || $murid === null|| $murid->murid_settings) {
+        if (!$api || $murid === null || $murid->murid_settings) {
             return response()->json(["Verifikasi Gagal"]);
         }
 

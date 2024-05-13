@@ -12,12 +12,13 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.6/flowbite.min.js" defer></script>
 
-    <link rel="stylesheet" href="{{ url('/general/style.css') }}">
+    <link rel="stylesheet" href="{{ asset('/general/style.css') }}">
 
-    <script src="{{ url('/general/Cookie.js') }}" defer></script>
-    <script src="{{ url('/general/global.js') }}" defer></script>
-    <script src="{{ url('/general/fetch.js') }}" defer></script>
+    <script src="{{ asset('/general/Cookie.js') }}" defer></script>
+    <script src="{{ asset('/general/global.js') }}" defer></script>
+    <script src="{{ asset('/general/fetch.js') }}" defer></script>
 
 </head>
 <body style="font-family: 'Poppins', sans-serif;" class="bg-gray-100 flex justify-center py-3 px-4">
@@ -25,7 +26,9 @@
     {{-- Wrapper --}}
     <div class="w-[315px]">
         {{-- Main Header --}}
-        @include('components.kasir.main_header')
+        @if (!in_array('components.kasir.main_header', $except))
+            @include('components.kasir.main_header')
+        @endif
 
         {{-- Main Content --}}
         {!! $content !!}

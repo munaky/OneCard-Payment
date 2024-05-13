@@ -64,3 +64,4 @@ Route::match(['get', 'post'], '/api/rfid/{method}', RFID::class);
 */
 
 Route::post('/api/get/tokenvalue', [API::class, 'tokenvalue']);
+Route::post('/api/get/checking', [API::class, 'checking']);
