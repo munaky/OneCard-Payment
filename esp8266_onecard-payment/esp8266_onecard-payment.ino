@@ -19,7 +19,7 @@ LiquidCrystal_I2C_PLUS lcd(0x27, 16, 2);
 DynamicJsonDocument doc(1024);
 
 //Host
-const char host[] = "payment.generasi4bogor.com";
+const char host[] = "example.com";
 const int port = 80;
 const String mainUrl = "/api/rfid/get";
 bool isConnected = false;
